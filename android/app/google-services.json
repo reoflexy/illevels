@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "771017843394",
+    "project_id": "illevels",
+    "storage_bucket": "illevels.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:771017843394:android:f032e48f403c610823115b",
+        "android_client_info": {
+          "package_name": "com.illevels"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTd8O1Idf_nWGWge9mB9BqiEqUkShP22k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
