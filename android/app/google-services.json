@@ -12,7 +12,20 @@
           "package_name": "com.illevels"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "771017843394-0cknjfccer888g8q4269qr4cmua18h01.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.illevels",
+            "certificate_hash": "9adc8ddcefc85e5940bdeacc827eee79c901401b"
+          }
+        },
+        {
+          "client_id": "771017843394-kfst557qphclu4lluh3faf3390tv5g74.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCTd8O1Idf_nWGWge9mB9BqiEqUkShP22k"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "771017843394-kfst557qphclu4lluh3faf3390tv5g74.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "771017843394-dc5livn72ioa6kpb37qvrn0kn3i0trsa.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.illevels"
+              }
+            }
+          ]
         }
       }
     }

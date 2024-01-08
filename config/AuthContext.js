@@ -75,7 +75,7 @@ export const AuthProvider = ({children}) => {
        else {
          console.log("No user")
         setLoggedIn(false)
-       setLoading(false)
+        setLoading(false)
       }
 
     });
@@ -89,7 +89,7 @@ export const AuthProvider = ({children}) => {
 
     return (
       <AuthContext.Provider value={finalValue}>
-          {loading == false && children}
+          {loading == false ? children : null}
       </AuthContext.Provider>
        )
   

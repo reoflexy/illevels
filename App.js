@@ -30,7 +30,18 @@ import {NavigationContainer} from '@react-navigation/native';
 
 import {AuthProvider,AuthContext} from './config/AuthContext'
 
+import CartState from './Context/Cart/CartState'
+
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { AppRegistry } from 'react-native';
+import { name as appName } from './app.json';
+
+import { PaperProvider } from 'react-native-paper';
+
+
+import Home from './screens/Home';
+import SignUp from './screens/SignUp';
+import Login from './screens/Login';
 
 const Stack = createNativeStackNavigator();
 
@@ -76,32 +87,10 @@ const Stack = createNativeStackNavigator();
 // }
 
 
-const HomeScreen = ({navigation}) => {
-  return (
-    <Button
-      title="Go to Jane's profile"
-      onPress={() =>
-        navigation.navigate('Profile', {name: 'Jane'})
-      }
-    />
-  );
-};
-
-const Profile = ({navigation}) => {
-  return (
-    <Button
-      title="Jane's profile"
-      onPress={() =>
-        navigation.navigate('Home', {name: 'Home'})
-      }
-    />
-  );
-};
-
-
 function App(){
   const isDarkMode = useColorScheme() === 'dark';
   const {loggedIn,currentUser} = useContext(AuthContext);
+
 
   useEffect(() => {
     SplashScreen.hide();
@@ -116,24 +105,34 @@ function App(){
     {  (loggedIn == true && (currentUser.emailVerified !== false && currentUser.emailVerified !== null )) ?   
 
 //logged in screens
-      <Stack.Navigator>
+      <Stack.Navigator >
         <Stack.Screen
           name="Home"
-          component={HomeScreen}
-          options={{title: 'Welcome'}}
+          component={Home}
+          options={{title: 'Home'}}
         />
-        <Stack.Screen name="Profile" component={Profile} />
+        
+        {/* <Stack.Screen name="Profile" component={Profile} /> */}
       </Stack.Navigator>
  
     :
     //non logged in screens
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName='SignUp'>
     <Stack.Screen
-      name="Home"
-      component={HomeScreen}
-      options={{title: 'Welcome'}}
-    />
-    <Stack.Screen name="Profile" component={Profile} />
+          name="Home"
+          component={Home}
+          options={{title: 'Home'}}
+        />
+        <Stack.Screen
+          name="SignUp"
+          component={SignUp}
+          options={{title: 'SignUp'}}
+        />
+    <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{title: 'Login'}}
+        />
   </Stack.Navigator>
      
   
@@ -145,8 +144,13 @@ function App(){
 
 const Jsx = () =>(
   <AuthProvider>
-   
-    <App />
+    
+   <PaperProvider>
+
+   <App />
+
+   </PaperProvider>
+  
     
   
   {/* <Text>New text</Text> */}
