@@ -42,6 +42,7 @@ import { PaperProvider } from 'react-native-paper';
 import Home from './screens/Home';
 import SignUp from './screens/SignUp';
 import Login from './screens/Login';
+import CartPage from './screens/CartPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -105,6 +106,9 @@ function App(){
     {  (loggedIn == true && (currentUser.emailVerified !== false && currentUser.emailVerified !== null )) ?   
 
 //logged in screens
+    <CartState>
+
+
       <Stack.Navigator >
         <Stack.Screen
           name="Home"
@@ -114,10 +118,12 @@ function App(){
         
         {/* <Stack.Screen name="Profile" component={Profile} /> */}
       </Stack.Navigator>
+    </CartState>
  
     :
     //non logged in screens
-    <Stack.Navigator initialRouteName='SignUp'>
+    <CartState>
+    <Stack.Navigator initialRouteName='Cart'>
     <Stack.Screen
           name="Home"
           component={Home}
@@ -133,7 +139,13 @@ function App(){
           component={Login}
           options={{title: 'Login'}}
         />
+    <Stack.Screen
+          name="Cart"
+          component={CartPage}
+          options={{title: 'Cart'}}
+        />
   </Stack.Navigator>
+  </CartState>
      
   
     }

@@ -5,13 +5,15 @@ import {logo,Logo} from '../Constants/images'
 import { useNavigation } from '@react-navigation/native';
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
-
+import CartContext from '../Context/Cart/CartContext';
 
 
 const SignUp = () => {
 
   const navigation = useNavigation()
   //const {CartItems} = useContext(CartContext)
+  const {cartItems} = useContext(CartContext)
+  //console.log(cartItems.length)
 
   const [firstname,setFirstName] = useState('');
   const [lastname,setLastName] = useState('');
