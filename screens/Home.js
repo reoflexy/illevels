@@ -1,12 +1,72 @@
-import React, { Component } from 'react';
-import { View, Text, StyleSheet,ScrollView } from 'react-native';
+import React, { Component, useEffect, useContext, useState } from 'react';
+import { View, Text, StyleSheet,ScrollView, TouchableNativeFeedback } from 'react-native';
 import { Button } from 'react-native-paper';
 import CatItem from './components/CatItem';
 import PopularItem from './components/PopularItem';
 import NewestItem from './components/NewestItem';
+import { categories } from '../Constants/Constants';
+import { useNavigation } from '@react-navigation/core';
+import auth from '@react-native-firebase/auth'
+import firestore from '@react-native-firebase/firestore'
+import { AuthContext } from '../config/AuthContext';
+import Toast from 'react-native-simple-toast'
 
-export default function Home(){
+export default function Home({navigation}){
+ // const navigation = useNavigation()
+  const {currentUser,dbUser,loggedin} = useContext(AuthContext)
+  const [menuData,setMenuData] = useState([])
+  const [newestData,setNewestData] = useState([])
+  const [loading,setLoading] = useState(false)
+  const [error,setError] = useState('');
+  const [success,setSuccess] = useState(false)
+  const [visible,setVisible] = useState(false)
+
+
+ useEffect(() => {
+  setLoading(true)
+
+  const loadNew = firestore().collection("menu")
+   //.where("email","==",currentUser.email)
+   .orderBy("added","desc")
+   //.orderBy('name','desc')
+   .get()
+   .then((querySnapshot) => {
+     if(querySnapshot.empty){
+        setError("No Items")
+        setLoading(false)
+        return Toast.show("No Menu items");
+     }
+   const menuArray = [];
+   querySnapshot.forEach((doc) => {
+     menuArray.push(doc.data());
+   })
+
+   setNewestData(menuArray)
+
+   //sort menu to get popular items array
+   var newItems = [];
+   for (var i = 0; i < 5; i++) {
+    var idx = Math.floor(Math.random() * menuArray.length);
+    newItems.push(menuArray[idx]);
+    //menuArray.splice(idx, 1);
+  }
+   
+  
+   setMenuData(newItems)
+   console.log(newItems)
+   setLoading(false);
+   
+   })
+   .catch((error) => {
+     console.log(error)
+   })
  
+ 
+ 
+ return () => {
+ loadNew();
+ };
+ },[])
  
     return (
       <ScrollView  style={styles.homeStyle}>
@@ -15,10 +75,17 @@ export default function Home(){
             {/* categories */}
             {/* replace with mapping from categories from data list */}
             <View style={styles.catStyle}> 
+            {categories.map((item,index) => {
+              return(
+                
+                <CatItem navigation={navigation} key={item.id} category={item} />
+               
+              )
+            })}
+            
+            {/* <CatItem />
             <CatItem />
-            <CatItem />
-            <CatItem />
-            <CatItem />
+            <CatItem /> */}
 
             </View>
             
@@ -30,9 +97,14 @@ export default function Home(){
           <ScrollView horizontal={true}>
            
           <View style={styles.popStyle}>
-          <PopularItem />
-          <PopularItem />
-          <PopularItem />
+
+          {menuData.map((item,index) => {
+              return(
+                
+                // <CatItem navigation={navigation} key={index} category={{name: item}} />
+                <PopularItem navigation={navigation} key={index} item={item} />
+              )
+            })}
           </View>
 
           </ScrollView>
@@ -42,7 +114,10 @@ export default function Home(){
               <Text style={styles.newHeader}>Newest Items</Text>
             </View>
           <View>
-            <NewestItem />
+          {newestData.slice(0, 5).map((item,index) => (
+    
+          <NewestItem navigation={navigation} key={index} item={item} />
+           ))}
           </View>
 
         

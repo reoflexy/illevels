@@ -1,15 +1,22 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet,TouchableNativeFeedback, TouchableOpacity } from 'react-native';
 import { Button, Avatar } from 'react-native-paper';
 
-export default function CatItem(){
+export default function CatItem({category, navigation}){
  
+  function toCat() {
+    navigation.navigate(category.name)
+  }
  
     return (
+      
       <View style={styles.catStyle} >
-
-<Avatar.Icon size={60} icon="apple" style={styles.catIcon}/>
-        <Text style={styles.catText}>  Home </Text>
+        <TouchableOpacity  onPress={toCat}>
+<View>
+<Avatar.Icon size={60} icon={category.icon} style={styles.catIcon}/>
+        <Text style={styles.catText}> {category.name} </Text>
+        </View>
+        </TouchableOpacity>
       </View>
     
   )
@@ -24,6 +31,7 @@ borderRadius: 5
 },
 catText: {
     marginTop: 5,
+    textAlign: 'center'
 },
 catIcon: {
     marginTop: 2,

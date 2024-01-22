@@ -11,13 +11,13 @@ require("firebase/storage");
 
 // Initialize Cloud Firestore through Firebase
 firebase.initializeApp({
-  apiKey: "AIzaSyAZWeWj5gfTnrmVRJgthoS77LhhP4RupQ8",
-  authDomain: "heatlhywithmo.firebaseapp.com",
-  projectId: "heatlhywithmo",
-  storageBucket: "heatlhywithmo.appspot.com",
-  messagingSenderId: "356022454237",
-  appId: "1:356022454237:web:74543af1912900492bd834",
-  measurementId: "G-7GEM5YH245"
+  apiKey: "AIzaSyAwbX3f3xHf4MYg4llRFHswE-uQIXtB0SI",
+  authDomain: "illevels.firebaseapp.com",
+  projectId: "illevels",
+  storageBucket: "illevels.appspot.com",
+  messagingSenderId: "771017843394",
+  appId: "1:771017843394:web:33ea568b356d4f3523115b",
+  measurementId: "G-ST1NEPC5P4"
 });
 
 var db = firebase.firestore();

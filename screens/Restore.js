@@ -1,18 +1,21 @@
-import { StyleSheet, View,Image,NativeSyntheticEvent,TextInputChangeEventData,TouchableNativeFeedback, } from 'react-native'
+import { StyleSheet, View,Image,NativeSyntheticEvent,TextInputChangeEventData,TouchableNativeFeedback} from 'react-native'
 import React,{useState,useEffect} from 'react'
-import { Text,TextInput,Button,ActivityIndicator,Banner} from 'react-native-paper'
+import { Text,TextInput,Button,ActivityIndicator,Banner,Portal, Modal, Avatar} from 'react-native-paper'
 import {logo,Logo} from '../Constants/images'
 import { useTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/core';
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 
-const Login = () => {
+const Restore = () => {
   const {colors} = useTheme()
   const navigation = useNavigation()
 
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
+
+  const showModal = () => setVisible2(true);
+  const hideModal = () => setVisible2(false);
 
   const [loading,setLoading] = useState(false)
   const [error,setError] = useState('');
@@ -36,7 +39,7 @@ const Login = () => {
     setPassword(text);
   }
 
-  const handleLogin = async () => {
+  const handleRecover= async () => {
     // validate info 
 
      if(email == "" || (!regexEmail.test(email))){
@@ -46,33 +49,25 @@ const Login = () => {
   }
 
 
-  if(password.length < 8){
-      setVisible(true)
-    return setError('Password must be 8 chracters minimum!');
-  }
-
   setVisible(false)
   setError('');
   setLoading(true);
 
     // initialise firebase auth
-   await auth().signInWithEmailAndPassword(email,password)
-    .then((userCredential) => {
-      if(userCredential.user.emailVerified == false){
-        auth().signOut();
+   await auth().sendPasswordResetEmail(email)
+    .then(() => {
         setLoading(false)
-        setVisible(true)
-        return setError('This email is not verified yet.')
-      }
+        setVisible2(true)
+        return setSuccess('A password recovery email has been sent to your address, kindly follow to receover your account.')
+      
 
 
     })
     .catch((err) => {
-      auth().signOut();
       setLoading(false)
       setVisible(true)
       console.log("errorss",err)
-        return setError('Unable to sign in, check credentials and retry.')
+        return setError('Unable to receover account, check credentials and retry.')
 
     })
    
@@ -110,6 +105,30 @@ const Login = () => {
        <ActivityIndicator size={42} />
       </View>}
 
+      {success !== "" &&  <Portal>
+        <Modal visible={visible2} dismissable={false} onDismiss={hideModal} contentContainerStyle={{margin: 20,padding: 20,backgroundColor: 'white',borderRadius: 5,elevation: 1,}}>
+        <View style={{flexDirection: 'column'}}>
+        <View style={{alignSelf: 'center'}}>
+        <Avatar.Icon icon="check" />
+        </View>
+        <Text style={{textAlign: 'center',marginTop: 20}}>{success} </Text>
+       <TouchableNativeFeedback 
+       
+       onPress={() => {
+         setSuccess('')
+        setVisible2(false)
+         navigation.navigate('Login')
+          
+         }}>
+        <Button  mode='outlined' style={{marginTop: 20, width: '50%', alignSelf: 'center'}}><Text style={{textTransform: 'none'}}>Close</Text> </Button>
+        </TouchableNativeFeedback>
+        </View>
+
+        </Modal>
+
+      </Portal>}
+
+
       <View style={styles.formView}>
       
       <TextInput 
@@ -122,27 +141,12 @@ const Login = () => {
       style={styles.inputStyle}
       />
 
-      <TextInput 
-      mode='outlined'
-      label='Password'
-      onChangeText={handlePassword}
-      value={password}
-      disabled={loading}
-      outlineColor='#2D1148'
-      secureTextEntry = {secure1}
-      right={<TextInput.Icon onPress={toggleSec1} icon="eye" />}
-      style={styles.inputStyle}
-      />
+      
 
-      <TouchableNativeFeedback onPress={handleLogin}>
-            <Button style={styles.submitBtn} mode='contained' >Login</Button>
+      <TouchableNativeFeedback onPress={handleRecover}>
+            <Button style={styles.submitBtn} mode='contained' >Recover</Button>
       </TouchableNativeFeedback>
-
-      <View>
-        <Button style={styles.alreadyBtn} onPress={() => navigation.navigate('Restore')}  >Forgot Password</Button>
-      </View>
        
-      <Button onPress={() => navigation.navigate('SignUp')}  style={styles.alreadyBtn} >I dont have an account</Button>
       
       </View>
       
@@ -150,7 +154,7 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Restore
 
 const styles = StyleSheet.create({
   mainView: {
@@ -192,7 +196,7 @@ flexDirection: 'column',
     alignSelf: 'center'
   },
   alreadyBtn:{
-    marginTop: 10,
+    marginTop: 20,
     alignSelf: 'center',
   }
 

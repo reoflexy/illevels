@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Button, Avatar, Card } from 'react-native-paper';
 
-export default function PopularItem({navigation,item}){
+export default function MenuItem({menuInfo}){
   const LeftContent = props => <Avatar.Icon {...props} icon="folder" />
  
     return (
@@ -15,15 +15,15 @@ export default function PopularItem({navigation,item}){
     left={LeftContent} 
     /> */}
    
-    <Card.Cover style={styles.popCoverImage} source={{ uri: item.photo }} />
+    <Card.Cover style={styles.popCoverImage} source={{uri: menuInfo.photo}} />
 
     <Card.Content style={{marginTop: 10}}>
-      <Text style={styles.mainText} variant="titleLarge">{item.name} </Text>
-      <Text variant="bodyMedium">£{item.price} / {item.measure} </Text>
+      <Text style={styles.mainText} variant="titleLarge">{menuInfo.name} </Text>
+      <Text variant="bodyMedium">£{menuInfo.price}/{menuInfo.measure}</Text>
 
       <View style={{flex:1,flexDirection: 'row', alignItems: 'center', marginTop: 10}}>
       <Avatar.Icon size={25} icon="apple" style={styles.catIcon}/>
-      <Text style={{marginLeft: 5}} variant="bodyMedium">{item.category} </Text>
+      <Text style={{marginLeft: 5}} variant="bodyMedium">{menuInfo.category}</Text>
 
       <Button mode='contained' style={{marginLeft: 40}} icon="cart" > Add  </Button>
       </View>

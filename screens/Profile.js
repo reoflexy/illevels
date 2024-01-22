@@ -1,15 +1,18 @@
 import { StyleSheet, View,Image,NativeSyntheticEvent,TextInputChangeEventData,TouchableNativeFeedback, } from 'react-native'
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect, useContext} from 'react'
 import { Text,TextInput,Button,ActivityIndicator,Banner} from 'react-native-paper'
 import {logo,Logo} from '../Constants/images'
 import { useTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/core';
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
+import { AuthContext } from '../config/AuthContext';
 
-const Login = () => {
+const Profile = () => {
   const {colors} = useTheme()
   const navigation = useNavigation()
+
+  const {currentUser,dbUser} = useContext(AuthContext)
 
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
@@ -103,7 +106,7 @@ const Login = () => {
         </Banner>
 
       <View style={styles.logoView}>
-        <Image style={{width: 50,height: 50}} source={logo} />
+        <Image style={{width: 100,height: 100}} source={logo} />
       </View>
 
       {loading == true  &&  <View >
@@ -112,37 +115,20 @@ const Login = () => {
 
       <View style={styles.formView}>
       
-      <TextInput 
-      mode='outlined'
-      label='Email'
-      onChangeText={handleEmail}
-      value={email}
-      disabled={loading}
-      outlineColor='#2D1148'
-      style={styles.inputStyle}
-      />
+      <Text style={{fontWeight: 'bold', fontSize: 15}}>{dbUser.firstname} {dbUser.lastname}</Text>
 
-      <TextInput 
-      mode='outlined'
-      label='Password'
-      onChangeText={handlePassword}
-      value={password}
-      disabled={loading}
-      outlineColor='#2D1148'
-      secureTextEntry = {secure1}
-      right={<TextInput.Icon onPress={toggleSec1} icon="eye" />}
-      style={styles.inputStyle}
-      />
+      <Text style={{marginTop: 10}}>{dbUser.mobile} </Text>
 
-      <TouchableNativeFeedback onPress={handleLogin}>
-            <Button style={styles.submitBtn} mode='contained' >Login</Button>
-      </TouchableNativeFeedback>
+      <Text style={{marginTop: 10}}>{dbUser.email} </Text>
 
-      <View>
-        <Button style={styles.alreadyBtn} onPress={() => navigation.navigate('Restore')}  >Forgot Password</Button>
-      </View>
+     
+
+  
+            <Button style={styles.submitBtn} mode='contained' onPress={() => 
+            auth().signOut()
+  }>
+    Logout</Button>
        
-      <Button onPress={() => navigation.navigate('SignUp')}  style={styles.alreadyBtn} >I dont have an account</Button>
       
       </View>
       
@@ -150,7 +136,7 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Profile
 
 const styles = StyleSheet.create({
   mainView: {
@@ -158,8 +144,8 @@ flex: 1,
 flexDirection: 'column',
   },
   logoView: {
-    height: 50,
-    marginTop: 30,
+    height: 100,
+    marginTop: 10,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center'
@@ -167,6 +153,7 @@ flexDirection: 'column',
   formView: {
     flex: 1,
     flexDirection: 'column',
+    alignItems: 'center',
     width: '100%',
     padding: 5,
     marginTop: 10,
@@ -192,7 +179,7 @@ flexDirection: 'column',
     alignSelf: 'center'
   },
   alreadyBtn:{
-    marginTop: 10,
+    marginTop: 20,
     alignSelf: 'center',
   }
 

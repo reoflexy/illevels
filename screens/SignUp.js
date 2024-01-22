@@ -1,6 +1,6 @@
 import { StyleSheet, View,Image,TouchableNativeFeedback, ScrollView } from 'react-native'
 import React,{useState,useEffect, useContext} from 'react'
-import { Text,TextInput,Button,Banner,ActivityIndicator,Provider,Portal,Modal} from 'react-native-paper'
+import { Text,TextInput,Button,Banner,ActivityIndicator,Provider,Portal,Modal, Avatar} from 'react-native-paper'
 import {logo,Logo} from '../Constants/images'
 import { useNavigation } from '@react-navigation/native';
 import auth from '@react-native-firebase/auth'
@@ -135,7 +135,7 @@ const SignUp = () => {
           auth().signOut();
           setLoading(false)
           setVisible2(true)
-         setSuccess('Welcome to TradePapi. A verification email has been sent to your address.Verify and proceed to Login')
+         setSuccess('Thanks for Signing up. A verification email has been sent to your address.Verify and proceed to Login')
         
          
         })
@@ -207,21 +207,29 @@ const SignUp = () => {
       </View>}
 
     {success !== "" &&  <Portal>
-        <Modal visible={visible2} dismissable={false} onDismiss={hideModal} contentContainerStyle={{margin: 20,padding: 20,backgroundColor: 'white',borderRadius: 5,elevation: 1}}>
+        <Modal visible={visible2} dismissable={false} onDismiss={hideModal} contentContainerStyle={{margin: 20,padding: 20,backgroundColor: 'white',borderRadius: 5,elevation: 1,}}>
+        <View style={{flexDirection: 'column'}}>
         <View style={{alignSelf: 'center'}}>
-        <Image source={logo} />
+        <Avatar.Icon icon="check" />
         </View>
         <Text style={{textAlign: 'center',marginTop: 20}}>{success} </Text>
-       <TouchableNativeFeedback onPress={() => {
+       <TouchableNativeFeedback 
+       
+       onPress={() => {
          setSuccess('')
         setVisible2(false)
          navigation.navigate('Login')
-
+          
          }}>
-        <Button mode='contained' style={{marginTop: 20}}><Text style={{textTransform: 'none',color: 'white'}}>Login</Text> </Button>
+        <Button  mode='outlined' style={{marginTop: 20, width: '50%', alignSelf: 'center'}}><Text style={{textTransform: 'none'}}>Login</Text> </Button>
         </TouchableNativeFeedback>
+        </View>
+
         </Modal>
+
       </Portal>}
+
+      
 
 
 
@@ -231,7 +239,7 @@ const SignUp = () => {
       <TextInput 
       mode='outlined'
       label='Firstname'
-      onChange={handleFirstName}
+      onChangeText={handleFirstName}
       value={firstname}
       disabled={loading}
       outlineColor='#2D1148'
@@ -241,7 +249,7 @@ const SignUp = () => {
     <TextInput 
       mode='outlined'
       label='Lastname'
-      onChange={handleLastName}
+      onChangeText={handleLastName}
       disabled={loading}
       value={lastname}
       outlineColor='#2D1148'
@@ -252,8 +260,9 @@ const SignUp = () => {
       mode='outlined'
       disabled={loading}
       label='Email'
-      onChange={handleEmail}
+      onChangeText={handleEmail}
       value={email}
+      spellCheck={false}
       outlineColor='#2D1148'
       style={styles.inputStyle}
       />
@@ -262,7 +271,7 @@ const SignUp = () => {
       mode='outlined'
       disabled={loading}
       label='Mobile'
-      onChange={handleMobile}
+      onChangeText={handleMobile}
       value={mobile}
       outlineColor='#2D1148'
       style={styles.inputStyle}
@@ -274,7 +283,7 @@ const SignUp = () => {
       secureTextEntry = {secure1}
       right={<TextInput.Icon onPress={toggleSec1} icon="eye" />}
       disabled={loading}
-      onChange={handlePassword}
+      onChangeText={handlePassword}
       value={password}
       outlineColor='#2D1148'
       style={styles.inputStyle}
@@ -283,7 +292,7 @@ const SignUp = () => {
     <TextInput 
       mode='outlined'
       label='Cofirm Password'
-      onChange={handlePassword2}
+      onChangeText={handlePassword2}
       secureTextEntry = {secure2}
       right={<TextInput.Icon onPress={toggleSec2} icon="eye" />}
       disabled={loading}

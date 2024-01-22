@@ -43,6 +43,10 @@ import Home from './screens/Home';
 import SignUp from './screens/SignUp';
 import Login from './screens/Login';
 import CartPage from './screens/CartPage';
+import HistoryPage from './screens/HistoryPage';
+import Restore from './screens/Restore';
+import Profile from './screens/Profile';
+import MenuPage from './screens/MenuPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -109,26 +113,41 @@ function App(){
     <CartState>
 
 
-      <Stack.Navigator >
+      <Stack.Navigator initialRouteName='Home'>
         <Stack.Screen
           name="Home"
           component={Home}
           options={{title: 'Home'}}
         />
-        
         {/* <Stack.Screen name="Profile" component={Profile} /> */}
+        <Stack.Screen
+          name="History"
+          component={HistoryPage}
+          options={{title: 'History'}}
+        />   
+        <Stack.Screen
+          name="Profile"
+          component={Profile}
+          options={{title: 'Profile'}}
+        />  
+        <Stack.Screen
+          name="Menu"
+          component={MenuPage}
+          options={{title: 'Menu'}}
+        />  
+         <Stack.Screen
+          name="Cart"
+          component={CartPage}
+          options={{title: 'Cart'}}
+        />
       </Stack.Navigator>
     </CartState>
  
     :
     //non logged in screens
     <CartState>
-    <Stack.Navigator initialRouteName='Cart'>
-    <Stack.Screen
-          name="Home"
-          component={Home}
-          options={{title: 'Home'}}
-        />
+    <Stack.Navigator initialRouteName='Login'>
+    
         <Stack.Screen
           name="SignUp"
           component={SignUp}
@@ -139,11 +158,13 @@ function App(){
           component={Login}
           options={{title: 'Login'}}
         />
-    <Stack.Screen
-          name="Cart"
-          component={CartPage}
-          options={{title: 'Cart'}}
+   
+      <Stack.Screen
+          name="Restore"
+          component={Restore}
+          options={{title: 'Recover Password'}}
         />
+ 
   </Stack.Navigator>
   </CartState>
      

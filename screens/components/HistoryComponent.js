@@ -1,32 +1,48 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
-import { Button, Avatar, Card } from 'react-native-paper';
+import { Button, Avatar, Card, IconButton,MD3Colors } from 'react-native-paper';
 
-export default function NewestItem({item,navigation}){
+export default function HistoryComponent(){
   const LeftContent = props => <Avatar.Icon {...props} icon="folder" />
  
     return (
       <View style={styles.popStyle} >
 
             
-<Card elevation={0}>
+<Card  style={{margin: 5}}>
     <Card.Content style={styles.cardStyle}>
         <View style={{flex: 0.4}}>
         <Image
         style={{width: 100, height: 100, borderRadius: 5}}
         source={{
-          uri: item.photo
+          uri: 'https://picsum.photos/540',
         }}
       />
         </View>
 
         <View style={{flex: 0.6}}>
-        <Text style={styles.mainText} variant="titleLarge">{item.name}</Text>
-      <Text style={{marginTop: 10}} variant="bodyMedium">£{item.price} / {item.measure}</Text>
+        <Text style={styles.dateText} variant="titleLarge">13/12/2024</Text>
+      <Text style={{marginTop: 5, fontWeight: 'bold'}} variant="bodyMedium">x5 items (£20)</Text>
 
-      <View style={{flex:1,flexDirection: 'row', alignItems: 'center', marginTop: 5}}>
-      <Avatar.Icon size={25} icon="apple" style={styles.catIcon}/>
-      <Text style={{marginLeft: 5}} variant="bodyMedium">{item.category}</Text>
+
+
+      <View style={{flex:1,flexDirection: 'row', alignItems: 'center'}}>
+     
+      
+      <Text style={{margin: 3, color: 'green', fontWeight: 'bold'}} variant="bodyMedium">completed </Text>
+
+      <Button
+      style={{marginLeft: 13}}
+    icon="cancel"
+    iconColor='red'
+    size={16}
+    mode='outlined'
+    textColor='red'
+    onPress={() => console.log('Pressed')}
+  >Cancel</Button>
+
+  
+ 
 
       </View>
 
@@ -41,7 +57,7 @@ export default function NewestItem({item,navigation}){
 }
 const styles = StyleSheet.create({
 cardStyle: {
-margin: 5,
+margin: 1,
 flex: 1,
 flexDirection: 'row'
 },
@@ -62,7 +78,10 @@ popCoverImage: {
 },
 mainText: {
   fontWeight: 'bold',
-  fontSize: 15
+  fontSize: 13
+},
+dateText: {
+  fontSize: 10
 },
 
 })
