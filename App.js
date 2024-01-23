@@ -47,6 +47,7 @@ import HistoryPage from './screens/HistoryPage';
 import Restore from './screens/Restore';
 import Profile from './screens/Profile';
 import MenuPage from './screens/MenuPage';
+import Contact from './screens/Contact';
 
 const Stack = createNativeStackNavigator();
 
@@ -139,6 +140,11 @@ function App(){
           name="Cart"
           component={CartPage}
           options={{title: 'Cart'}}
+        />
+        <Stack.Screen
+          name="Contact"
+          component={Contact}
+          options={{title: 'Contact'}}
         />
       </Stack.Navigator>
     </CartState>

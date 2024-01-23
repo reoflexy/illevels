@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { Button, Avatar, Card, IconButton,MD3Colors } from 'react-native-paper';
 
-export default function HistoryComponent(){
+export default function HistoryComponent({navigation,order}){
   const LeftContent = props => <Avatar.Icon {...props} icon="folder" />
  
     return (
@@ -16,30 +16,31 @@ export default function HistoryComponent(){
         style={{width: 100, height: 100, borderRadius: 5}}
         source={{
           uri: 'https://picsum.photos/540',
+          //uri: order[0].photo,
         }}
       />
         </View>
 
         <View style={{flex: 0.6}}>
-        <Text style={styles.dateText} variant="titleLarge">13/12/2024</Text>
-      <Text style={{marginTop: 5, fontWeight: 'bold'}} variant="bodyMedium">x5 items (£20)</Text>
+        <Text style={styles.dateText} variant="titleLarge">{order.added.toDate().toDateString()}, at {order.added.toDate().toLocaleTimeString()} </Text>
+      <Text style={{marginTop: 5, fontWeight: 'bold'}} variant="bodyMedium">x{order.items.length} items (£{order.cost})</Text>
 
 
 
       <View style={{flex:1,flexDirection: 'row', alignItems: 'center'}}>
      
       
-      <Text style={{margin: 3, color: 'green', fontWeight: 'bold'}} variant="bodyMedium">completed </Text>
+      <Text style={{margin: 3, color: 'green', fontWeight: 'bold'}} variant="bodyMedium">{order.status} </Text>
 
-      <Button
-      style={{marginLeft: 13}}
+   {order.status == "in progress" ?   <Button
+      style={{marginLeft: 8}}
     icon="cancel"
     iconColor='red'
     size={16}
     mode='outlined'
     textColor='red'
     onPress={() => console.log('Pressed')}
-  >Cancel</Button>
+  >Cancel</Button> : ''}
 
   
  

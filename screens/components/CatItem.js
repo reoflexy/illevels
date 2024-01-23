@@ -5,7 +5,7 @@ import { Button, Avatar } from 'react-native-paper';
 export default function CatItem({category, navigation}){
  
   function toCat() {
-    navigation.navigate(category.name)
+    navigation.navigate(category.link)
   }
  
     return (
