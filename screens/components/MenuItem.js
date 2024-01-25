@@ -1,8 +1,26 @@
-import React, { Component } from 'react';
+import React, { Component, useContext, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Button, Avatar, Card } from 'react-native-paper';
+import CartContext from '../../Context/Cart/CartContext';
 
 export default function MenuItem({menuInfo}){
+  const {AddToCart,removeItem,cartItems} = useContext(CartContext)
+
+  const addItem = (item) => {
+    //check if item exists in cart arraylist
+    for (i = 0; i < cartItems.length; i++) {
+      if (cartItems[i].name === item.name) {
+          console.log('item exists')
+          console.log(cartItems)
+          return ;
+      }
+    }
+    
+   // item["count"] = 1;
+    AddToCart(item);
+    console.log(cartItems)
+  }
+
   const LeftContent = props => <Avatar.Icon {...props} icon="folder" />
  
     return (
@@ -25,7 +43,7 @@ export default function MenuItem({menuInfo}){
       <Avatar.Icon size={25} icon="apple" style={styles.catIcon}/>
       <Text style={{marginLeft: 5}} variant="bodyMedium">{menuInfo.category}</Text>
 
-      <Button mode='contained' style={{marginLeft: 40}} icon="cart" > Add  </Button>
+      <Button mode='contained' style={{marginLeft: 40}} icon="cart" onPress={() => addItem(menuInfo)}> Add  </Button>
       </View>
     </Card.Content>
 

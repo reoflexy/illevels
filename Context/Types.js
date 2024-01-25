@@ -4,3 +4,6 @@ export const REMOVE_ITEM = "REMOVE_ITEM";
 export const IS_SEARCH = "IS_SEARCH";
 export const IS_CATEGORY = "IS_CATEGORY";
 export const EMPTY_CART = "EMPTY_CART";
+export const ADD_COUNT = "ADD_COUNT";
+export const REDUCE_COUNT = "REDUCE_COUNT"
+

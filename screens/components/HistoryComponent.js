@@ -1,9 +1,24 @@
-import React, { Component } from 'react';
+import React, { Component, useContext } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { Button, Avatar, Card, IconButton,MD3Colors } from 'react-native-paper';
+import auth from '@react-native-firebase/auth'
+import firestore from '@react-native-firebase/firestore'
+import { AuthContext } from '../../config/AuthContext';
 
 export default function HistoryComponent({navigation,order}){
+  const {dbUser,currentUser} = useContext(AuthContext)
+
   const LeftContent = props => <Avatar.Icon {...props} icon="folder" />
+
+  const deleteOrder = (item) => {
+    firestore()
+    .collection('orders')
+    .doc(item.id)
+    .delete()
+    .then(() => {
+      console.log('order deleted!');
+    });
+  }
  
     return (
       <View style={styles.popStyle} >
@@ -39,7 +54,7 @@ export default function HistoryComponent({navigation,order}){
     size={16}
     mode='outlined'
     textColor='red'
-    onPress={() => console.log('Pressed')}
+    onPress={() => deleteOrder(order)}
   >Cancel</Button> : ''}
 
   

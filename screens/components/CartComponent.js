@@ -1,9 +1,26 @@
-import React, { Component } from 'react';
+import React, { Component, useContext, useState } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { Button, Avatar, Card, IconButton,MD3Colors } from 'react-native-paper';
+import CartContext from '../../Context/Cart/CartContext';
 
-export default function CartComponent(){
+export default function CartComponent({navigation, item}){
+  const {AddToCart,removeItem,cartItems, addCount, reduceCount} = useContext(CartContext)
   const LeftContent = props => <Avatar.Icon {...props} icon="folder" />
+
+
+  const addNumber  = (item) => {
+    removeItem(item.name)
+    item["count"] = item["count"] + 1
+    AddToCart(item)
+
+  }
+
+  const reduceNumber  = (item) => {
+   removeItem(item.name)
+    item["count"] = item["count"] - 1
+    AddToCart(item)
+   }
+
  
     return (
       <View style={styles.popStyle} >
@@ -15,14 +32,15 @@ export default function CartComponent(){
         <Image
         style={{width: 100, height: 100, borderRadius: 5}}
         source={{
-          uri: 'https://picsum.photos/540',
+          //uri: 'https://picsum.photos/540',
+          uri: item.photo,
         }}
       />
         </View>
 
         <View style={{flex: 0.6}}>
-        <Text style={styles.mainText} variant="titleLarge">Food name</Text>
-      <Text style={{marginTop: 5, color: 'green', fontWeight: 'bold'}} variant="bodyMedium">£10/portion</Text>
+        <Text style={styles.mainText} variant="titleLarge">{item.name} </Text>
+      <Text style={{marginTop: 5, color: 'green', fontWeight: 'bold'}} variant="bodyMedium">£{item.price} / {item.measure} </Text>
 
       <View style={{flex:1,flexDirection: 'row', alignItems: 'center'}}>
       <IconButton
@@ -30,15 +48,16 @@ export default function CartComponent(){
     iconColor={MD3Colors.primary0}
     size={14}
     mode='contained'
-    onPress={() => console.log('Pressed')}
+    disabled={item.count < 2 ? true : false}
+    onPress={() => reduceNumber(item)}
   />
-      <Text style={{margin: 10}} variant="bodyMedium">1</Text>
+      <Text style={{margin: 10}} variant="bodyMedium">{item.count} </Text>
       <IconButton
     icon="plus"
     iconColor={MD3Colors.primary0}
     size={14}
     mode='contained'
-    onPress={() => console.log('Pressed')}
+    onPress={() => addNumber(item)}
   />
 
 
@@ -52,7 +71,7 @@ export default function CartComponent(){
      
       <Text style={{margin: 10}} variant="bodyMedium">Price: </Text>
       
-      <Text style={{margin: 3, color: 'green', fontWeight: 'bold'}} variant="bodyMedium">£20 </Text>
+      <Text style={{margin: 3, color: 'green', fontWeight: 'bold'}} variant="bodyMedium">£{item.price*item.count} </Text>
 
       <IconButton
       style={{marginLeft: 60}}
@@ -60,7 +79,7 @@ export default function CartComponent(){
     iconColor='red'
     size={16}
     mode='contained'
-    onPress={() => console.log('Pressed')}
+    onPress={() => removeItem(item.name)}
   />
  
 

@@ -1,6 +1,6 @@
 import React, { Component, useEffect, useContext, useState } from 'react';
 import { View, Text, StyleSheet,ScrollView, TouchableNativeFeedback } from 'react-native';
-import { Button } from 'react-native-paper';
+import { Button, FAB} from 'react-native-paper';
 import CatItem from './components/CatItem';
 import PopularItem from './components/PopularItem';
 import NewestItem from './components/NewestItem';
@@ -10,10 +10,12 @@ import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import { AuthContext } from '../config/AuthContext';
 import Toast from 'react-native-simple-toast'
+import CartContext from '../Context/Cart/CartContext';
 
 export default function Home({navigation}){
  // const navigation = useNavigation()
   const {currentUser,dbUser,loggedin} = useContext(AuthContext)
+  const {AddToCart,removeItem,cartItems} = useContext(CartContext)
   const [menuData,setMenuData] = useState([])
   const [newestData,setNewestData] = useState([])
   const [loading,setLoading] = useState(false)
@@ -118,9 +120,15 @@ export default function Home({navigation}){
     
           <NewestItem navigation={navigation} key={index} item={item} />
            ))}
+           
           </View>
 
-        
+          <FAB
+            icon="cart"
+            style={styles.fab}
+            label={cartItems.length > 0 ? cartItems.length.toString() : "" }
+            onPress={() => navigation.navigate('Cart')}
+          />
      
       </ScrollView>
     
@@ -155,5 +163,11 @@ newHeader: {
   marginLeft: 20,
   fontSize: 17,
   marginTop: 20
-}
+},
+fab: {
+  position: 'absolute',
+  margin: 16,
+  right: 0,
+  bottom: 0,
+},
 })

@@ -1,4 +1,4 @@
-import { ADD_TO_CART, SHOW_HIDE_CART, REMOVE_ITEM, EMPTY_CART } from "../Types";
+import { ADD_TO_CART, SHOW_HIDE_CART, REMOVE_ITEM, EMPTY_CART, ADD_COUNT, REDUCE_COUNT } from "../Types";
 
 const CartReducer = (state, action) => {
   switch (action.type) {
@@ -18,9 +18,33 @@ const CartReducer = (state, action) => {
     case REMOVE_ITEM: {
       return {
         ...state,
-        cartItems: state.cartItems.filter((item) => item.id !== action.payload),
+        cartItems: state.cartItems.filter((item) => item.name !== action.payload),
       };
     }
+
+    // case ADD_COUNT: {
+    //   return {
+    //     ...state,
+    //     cartItems: state.cartItems.map((obj) => {
+    //         if(obj.name == action.payload){
+    //           obj.count++
+    //         }
+    //     })
+    //   };
+    // }
+
+    // case REDUCE_COUNT: {
+    //   return {
+    //     ...state,
+    //     cartItems: state.cartItems.map((obj) => {
+    //         if(obj.name == action.payload){
+             
+    //             obj.count++
+    //         }
+    //     })
+    //   };
+    // }
+   
 
     case EMPTY_CART: {
       return {
