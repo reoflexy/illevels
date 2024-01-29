@@ -37,7 +37,7 @@ import { AppRegistry } from 'react-native';
 import { name as appName } from './app.json';
 
 import { PaperProvider } from 'react-native-paper';
-
+import { initStripe } from '@stripe/stripe-react-native';
 
 import Home from './screens/Home';
 import SignUp from './screens/SignUp';
@@ -48,6 +48,7 @@ import Restore from './screens/Restore';
 import Profile from './screens/Profile';
 import MenuPage from './screens/MenuPage';
 import Contact from './screens/Contact';
+//import {PUBLISHABLE_KEY} from '@env'
 
 const Stack = createNativeStackNavigator();
 
@@ -100,6 +101,13 @@ function App(){
 
   useEffect(() => {
     SplashScreen.hide();
+  
+    initStripe({
+      publishableKey: "pk_test_qblFNYngBkEdjEZ16jxxoWSM",
+      //publishableKey: PUBLISHABLE_KEY,
+      // merchantIdentifier: 'merchant.identifier',
+      // urlScheme: "your-url-scheme",
+    });
   },[])
 
   const backgroundStyle = {
@@ -111,6 +119,7 @@ function App(){
     {  (loggedIn == true && (currentUser.emailVerified !== false && currentUser.emailVerified !== null )) ?   
 
 //logged in screens
+ 
     <CartState>
 
 
@@ -148,7 +157,7 @@ function App(){
         />
       </Stack.Navigator>
     </CartState>
- 
+   
     :
     //non logged in screens
     <CartState>
@@ -182,10 +191,12 @@ function App(){
 }
 
 const Jsx = () =>(
+ 
   <AuthProvider>
     
    <PaperProvider>
 
+  
    <App />
 
    </PaperProvider>
