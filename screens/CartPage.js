@@ -22,62 +22,7 @@ export default function CartPage({navigation}){
 
   //const fetchPaymentSheetParams = 
 
-  const fetchPaymentSheetParams = async () => {
 
-    const stripeFunction = functions().httpsCallable('stripeIntent')
-    const response = await stripeFunction()
-    //console.log(response.data)
-    const { paymentIntent, ephemeralKey, customer,publishableKey} =  response.data;
-    
-
-    return {
-      paymentIntent,
-      ephemeralKey,
-      customer,
-      publishableKey
-    };
-  };
-
-  const initializePaymentSheet = async () => {
-    const {
-      paymentIntent,
-      ephemeralKey,
-      customer,
-      publishableKey,
-    } = await fetchPaymentSheetParams();
-
-    const { error } = await initPaymentSheet({
-      merchantDisplayName: "I-Levels",
-      customerId: customer,
-      customerEphemeralKeySecret: ephemeralKey,
-      paymentIntentClientSecret: paymentIntent,
-      // Set `allowsDelayedPaymentMethods` to true if your business can handle payment
-      //methods that complete payment after a delay, like SEPA Debit and Sofort.
-      allowsDelayedPaymentMethods: true,
-      defaultBillingDetails: {
-        name: dbUser.firstname+' '+dbUser.lastname,
-      }
-    });
-    if (!error) {
-      setLoading(true);
-    }
-  };
-
-  const openPaymentSheet = async () => {
-    const { error } = await presentPaymentSheet();
-
-    if (error) {
-      //Alert.alert(`Error code: ${error.code}`, error.message);
-      console.log(error.message)
-    } else {
-      //Alert.alert('Success', 'Your order is confirmed!');
-      console.log('success')
-    }
-  };
-
-  useEffect(() => {
-    initializePaymentSheet();
-  }, []);
 
   
   
@@ -153,8 +98,9 @@ cartItems.reduce(
 {cartItems.length >= 1 && <View style={{flexDirection: 'row', justifyContent: "center", padding: 10, marginTop: 10}}>
   <Button mode="contained" 
   style={{width: '80%'}}
-  onPress={() => openPaymentSheet()}
-  >Checkout</Button>
+  // onPress={() => openPaymentSheet()}
+  onPress={() => navigation.navigate('Checkout')}
+  >Next</Button>
 </View>}
       </ScrollView>
         

@@ -48,6 +48,7 @@ import Restore from './screens/Restore';
 import Profile from './screens/Profile';
 import MenuPage from './screens/MenuPage';
 import Contact from './screens/Contact';
+import Checkout from './screens/Checkout';
 //import {PUBLISHABLE_KEY} from '@env'
 
 const Stack = createNativeStackNavigator();
@@ -149,6 +150,11 @@ function App(){
           name="Cart"
           component={CartPage}
           options={{title: 'Cart'}}
+        />
+        <Stack.Screen
+          name="Checkout"
+          component={Checkout}
+          options={{title: 'Checkout'}}
         />
         <Stack.Screen
           name="Contact"
