@@ -49,6 +49,9 @@ import Profile from './screens/Profile';
 import MenuPage from './screens/MenuPage';
 import Contact from './screens/Contact';
 import Checkout from './screens/Checkout';
+import AddMenu from './screens/AddMenu';
+import AdminMenuPage from './screens/AdminMenuPage';
+import AdminOrdersPage from './screens/AdminOrdersPage';
 //import {PUBLISHABLE_KEY} from '@env'
 
 const Stack = createNativeStackNavigator();
@@ -142,10 +145,20 @@ function App(){
           options={{title: 'Profile'}}
         />  
         <Stack.Screen
+          name="AdminMenuPage"
+          component={AdminMenuPage}
+          options={{title: 'AdminMenuPage'}}
+        /> 
+       <Stack.Screen
+          name="AdminOrdersPage"
+          component={AdminOrdersPage}
+          options={{title: 'AdminOrdersPage'}}
+        /> 
+        <Stack.Screen
           name="Menu"
           component={MenuPage}
           options={{title: 'Menu'}}
-        />  
+        />   
          <Stack.Screen
           name="Cart"
           component={CartPage}
@@ -160,6 +173,11 @@ function App(){
           name="Contact"
           component={Contact}
           options={{title: 'Contact'}}
+        />
+        <Stack.Screen
+          name="AddMenu"
+          component={AddMenu}
+          options={{title: 'AddMenu'}}
         />
       </Stack.Navigator>
     </CartState>

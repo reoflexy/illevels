@@ -11,6 +11,14 @@ const categories = [
   {id: 4, name:'Contact',icon: 'information-outline',link: 'Contact'},
 
 ]
+const categoriesAdmin = [
+  {id: 1, name:'Menu',icon: 'food',link: 'AdminMenuPage'},
+  {id: 2, name:'Add Item',icon: 'plus',link: 'AddMenu'},
+  {id: 3, name:'Orders',icon: 'history',link: 'AdminOrdersPage'},
+  // {id: 4, name:'Profiles',icon: 'account',link: 'Profiles'},
+  {id: 5, name:'Contact',icon: 'information-outline',link: 'Contact'},
+
+]
 const contactData =[
   {id: 1, txt:'Instagram',icon: 'instagram',link: 'https://instagram.com/illevels'},
   {id: 2, txt:'FaceBook',icon: 'facebook',link: 'https://facebook.com/illevels'},
@@ -21,5 +29,6 @@ const contactData =[
 export {
    APP_NAME,
    categories,
-   contactData
+   contactData,
+   categoriesAdmin
 };

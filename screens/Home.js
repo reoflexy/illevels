@@ -4,7 +4,7 @@ import { Button, FAB} from 'react-native-paper';
 import CatItem from './components/CatItem';
 import PopularItem from './components/PopularItem';
 import NewestItem from './components/NewestItem';
-import { categories } from '../Constants/Constants';
+import { categories, categoriesAdmin } from '../Constants/Constants';
 import { useNavigation } from '@react-navigation/core';
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
@@ -77,13 +77,23 @@ export default function Home({navigation}){
             {/* categories */}
             {/* replace with mapping from categories from data list */}
             <View style={styles.catStyle}> 
-            {categories.map((item,index) => {
+            {dbUser.role == 'customer' ? categories.map((item,index) => {
               return(
                 
                 <CatItem navigation={navigation} key={item.id} category={item} />
                
               )
-            })}
+            })
+            :
+            categoriesAdmin.map((item,index) => {
+              return(
+                
+                <CatItem navigation={navigation} key={item.id} category={item} />
+               
+              )
+            })
+            
+            }
             
             {/* <CatItem />
             <CatItem />
