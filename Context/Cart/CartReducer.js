@@ -22,28 +22,19 @@ const CartReducer = (state, action) => {
       };
     }
 
-    // case ADD_COUNT: {
-    //   return {
-    //     ...state,
-    //     cartItems: state.cartItems.map((obj) => {
-    //         if(obj.name == action.payload){
-    //           obj.count++
-    //         }
-    //     })
-    //   };
-    // }
+    case ADD_COUNT: {
+      return {
+        ...state,
+        cartItems: action.payload
+      };
+    }
 
-    // case REDUCE_COUNT: {
-    //   return {
-    //     ...state,
-    //     cartItems: state.cartItems.map((obj) => {
-    //         if(obj.name == action.payload){
-             
-    //             obj.count++
-    //         }
-    //     })
-    //   };
-    // }
+     case REDUCE_COUNT: {
+      return {
+        ...state,
+        cartItems: action.payload
+      };
+     }
    
 
     case EMPTY_CART: {

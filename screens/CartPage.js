@@ -82,10 +82,10 @@ export default function CartPage({navigation}){
 <Text style={{fontSize: 20}}>Sub Total ({cartItems.length} item{cartItems.length > 1 ? "s" : ""}  ): </Text>
 <Text style={{ color: 'green', fontWeight: 'bold', fontSize: 20}}>£
 { 
-cartItems.reduce(
-    (amount, cartItem) => parseInt(cartItem.price*cartItem.count, 10) + amount,
+  parseFloat(cartItems.reduce(
+    (amount, cartItem) => parseFloat(cartItem.price*cartItem.count, 10) + amount,
     0
-    )}
+    ).toFixed(2) )}
      </Text>
 </View>)
 : 

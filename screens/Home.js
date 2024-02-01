@@ -1,6 +1,6 @@
 import React, { Component, useEffect, useContext, useState } from 'react';
 import { View, Text, StyleSheet,ScrollView, TouchableNativeFeedback } from 'react-native';
-import { Button, FAB} from 'react-native-paper';
+import { Button, FAB, ActivityIndicator} from 'react-native-paper';
 import CatItem from './components/CatItem';
 import PopularItem from './components/PopularItem';
 import NewestItem from './components/NewestItem';
@@ -11,13 +11,16 @@ import firestore from '@react-native-firebase/firestore'
 import { AuthContext } from '../config/AuthContext';
 import Toast from 'react-native-simple-toast'
 import CartContext from '../Context/Cart/CartContext';
+import storage from '@react-native-firebase/storage';
 
 export default function Home({navigation}){
  // const navigation = useNavigation()
   const {currentUser,dbUser,loggedin} = useContext(AuthContext)
   const {AddToCart,removeItem,cartItems} = useContext(CartContext)
   const [menuData,setMenuData] = useState([])
+  const  [imagesData,setImagesData] = useState([])
   const [newestData,setNewestData] = useState([])
+  const [newestImg,setNewestImg] = useState([])
   const [loading,setLoading] = useState(false)
   const [error,setError] = useState('');
   const [success,setSuccess] = useState(false)
@@ -39,11 +42,20 @@ export default function Home({navigation}){
         return Toast.show("No Menu items");
      }
    const menuArray = [];
-   querySnapshot.forEach((doc) => {
+   const imagesArray = [];
+   let url = ''
+   querySnapshot.forEach(async(doc) => {
+    //fetch url from storage
+     
      menuArray.push(doc.data());
+    //  const url = await storage().ref('images/menu/'+doc.data().photo).getDownloadURL();
+    //  console.log(url)
+     
+     
    })
 
    setNewestData(menuArray)
+   //console.log(imagesArray)
 
    //sort menu to get popular items array
    var newItems = [];
@@ -55,7 +67,7 @@ export default function Home({navigation}){
    
   
    setMenuData(newItems)
-   console.log(newItems)
+   //console.log(newItems)
    setLoading(false);
    
    })
@@ -71,13 +83,17 @@ export default function Home({navigation}){
  },[])
  
     return (
-      <ScrollView  style={styles.homeStyle}>
-     
+      <View>
+      <ScrollView  >
+        <View style={styles.homeStyle}>
+     {loading == true  &&  <View >
+       <ActivityIndicator size={42} />
+      </View>}
 
             {/* categories */}
             {/* replace with mapping from categories from data list */}
             <View style={styles.catStyle}> 
-            {dbUser.role == 'customer' ? categories.map((item,index) => {
+            {dbUser.role !== 'customer' ? categories.map((item,index) => {
               return(
                 
                 <CatItem navigation={navigation} key={item.id} category={item} />
@@ -88,7 +104,7 @@ export default function Home({navigation}){
             categoriesAdmin.map((item,index) => {
               return(
                 
-                <CatItem navigation={navigation} key={item.id} category={item} />
+                <CatItem navigation={navigation} key={item.id} category={item}  />
                
               )
             })
@@ -128,20 +144,22 @@ export default function Home({navigation}){
           <View>
           {newestData.slice(0, 5).map((item,index) => (
     
-          <NewestItem navigation={navigation} key={index} item={item} />
+          <NewestItem navigation={navigation} key={index} item={item}  />
            ))}
            
           </View>
 
-          <FAB
-            icon="cart"
-            style={styles.fab}
-            label={cartItems.length > 0 ? cartItems.length.toString() : "" }
-            onPress={() => navigation.navigate('Cart')}
-          />
-     
+          
+     </View>
       </ScrollView>
-    
+
+<FAB
+icon="cart"
+style={styles.fab}
+label={cartItems.length > 0 ? cartItems.length.toString() : "" }
+onPress={() => navigation.navigate('Cart')}
+/>
+</View>
   )
 
 }

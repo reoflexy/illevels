@@ -25,13 +25,13 @@ const removeItem = (id) => {
     dispatch({type: REMOVE_ITEM, payload: id})
 }
 
-// const addCount = (name) => {
-//     dispatch({type: ADD_COUNT, payload: name})
-// }
+const addCount = (id) => {
+    dispatch({type: ADD_COUNT, payload: id})
+}
 
-// const reduceCount = (name) => {
-//     dispatch({type: REDUCE_COUNT, payload: name})
-// }
+const reduceCount = (name) => {
+    dispatch({type: REDUCE_COUNT, payload: name})
+}
 
 
 const emptyCart = () => {
@@ -46,8 +46,8 @@ return <CartContext.Provider
         showHideCart,
         removeItem,
         emptyCart,
-        // addCount,
-        // reduceCount
+        addCount,
+        reduceCount
     }}
     >
 {children}

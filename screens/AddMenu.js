@@ -21,6 +21,8 @@ const AddMenu = () => {
     {key:'1', value:'Vegetables', disabled:false},
     {key:'1', value:'Fish', disabled:false},
     {key:'1', value:'Fruits', disabled:false},
+    {key:'1', value:'Grains', disabled:false},
+    
     ]
 
   const measureData = [
@@ -119,7 +121,7 @@ if(stock == "" || stock == null){
     measure: measure == 'Weight (kg)' ? 'kg': 'portion',
     name: name,
     photo: name.replace(/\s+/g, '')+'.png',
-    price: price,
+    price: parseFloat(price).toFixed(2),
     itemId: menuId
 
   })
@@ -132,7 +134,7 @@ if(stock == "" || stock == null){
     setPrice('')
     setStock('')
     setSuccess('Item saved successfully')
-   
+    
   })
   .catch((err) => {
         console.log(err)
@@ -195,7 +197,7 @@ if(stock == "" || stock == null){
          navigation.navigate('Home')
           
          }}>
-        <Button  mode='outlined' style={{marginTop: 20, width: '50%', alignSelf: 'center'}}><Text style={{textTransform: 'none'}}>Login</Text> </Button>
+        <Button  mode='outlined' style={{marginTop: 20, width: '50%', alignSelf: 'center'}}><Text style={{textTransform: 'none'}}>Ok</Text> </Button>
         </TouchableNativeFeedback>
         </View>
 

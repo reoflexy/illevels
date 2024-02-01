@@ -30,8 +30,8 @@ const Checkout = () => {
   const [date, setDate] = useState('')
   const [open, setOpen] = useState(false)
   const [openTime, setOpenTime] = useState(false)
-  const [cartAmount,setCartAmount] = useState(cartItems.reduce(
-    (amount, cartItem) => parseInt(cartItem.price*cartItem.count, 10) + amount,
+  const [cartAmount,setCartAmount] = useState( cartItems.reduce(
+    (amount, cartItem) => parseFloat(cartItem.price*cartItem.count, 10) + amount,
     0
     ) )
   var firstDay = new Date();

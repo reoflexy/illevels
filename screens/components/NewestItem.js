@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { Button, Avatar, Card } from 'react-native-paper';
 
-export default function NewestItem({item,navigation}){
+export default function NewestItem({item,navigation, image}){
   const LeftContent = props => <Avatar.Icon {...props} icon="folder" />
  
     return (
@@ -15,7 +15,8 @@ export default function NewestItem({item,navigation}){
         <Image
         style={{width: 100, height: 100, borderRadius: 5}}
         source={{
-          uri: item.photo
+           uri: item.photo
+          //uri: image
         }}
       />
         </View>
