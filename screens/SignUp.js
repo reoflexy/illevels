@@ -123,7 +123,6 @@ const SignUp = () => {
           firstname: firstname,
           lastname: lastname,
           email: email,
-          password: password,
           role: "customer",
           mobile: mobile,
           joined: new Date(),

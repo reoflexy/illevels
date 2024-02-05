@@ -11,6 +11,7 @@ import firestore from '@react-native-firebase/firestore'
 import { AuthContext } from '../config/AuthContext';
 import Toast from 'react-native-simple-toast'
 import AdminMenuItem from './components/AdminMenuItem';
+import {ActivityIndicator} from 'react-native-paper';
 
 export default function AdminMenuPage({navigation}){
   const {currentUser,dbUser,loggedin} = useContext(AuthContext)
@@ -64,6 +65,9 @@ loadNew();
     
       
       <ScrollView>
+        {loading == true  &&  <View >
+       <ActivityIndicator size={42} />
+      </View>}
 
         {
           menuData.map((item, index) => {

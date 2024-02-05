@@ -66,7 +66,7 @@ export default function AdminOrderItem({menuInfo}){
       <Text style={styles.mainText} variant="titleLarge">{menuInfo.id} - £{menuInfo.cost} </Text>
       <Text variant="bodyMedium">{menuInfo.address} / {menuInfo.postcode}</Text>
       
-      <Text style={{marginTop: 5, marginBottom: 5}} variant="bodyMedium">Customer - {menuInfo.deliveryDate} ()</Text>
+      <Text style={{marginTop: 5, marginBottom: 5}} variant="bodyMedium">Customer - {menuInfo.firstname} ({menuInfo.mobile})</Text>
 
       <Text style={{marginTop: 5, marginBottom: 5}} variant="bodyMedium">{menuInfo.deliveryDate} / {menuInfo.deliveryTime}</Text>
 

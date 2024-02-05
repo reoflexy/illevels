@@ -179,13 +179,17 @@ const Checkout = () => {
 
   const fetchPaymentSheetParams = async () => {
 
-    const stripeFunction = functions().httpsCallable('stripeIntent')
-    const response = await stripeFunction({email: currentUser.email, amount: cartItems.reduce(
-      (amount, cartItem) => parseInt(cartItem.price*cartItem.count, 10) + amount,
+    let amount = cartItems.reduce(
+      (amount, cartItem) => parseFloat(cartItem.price*cartItem.count, 10) + amount,
       0
-      )*100, cart: cartItems})
+      )*100
+
+    
+
+    const stripeFunction = functions().httpsCallable('stripeIntent')
+    const response = await stripeFunction({ amount: amount})
     //const response = await stripeFunction({email: currentUser.email})
-    console.log(response.data)
+    //console.log(response.data)
     const { paymentIntent, ephemeralKey, customer,publishableKey} =  response.data;
     
 
@@ -210,6 +214,7 @@ const Checkout = () => {
       customerId: customer,
       customerEphemeralKeySecret: ephemeralKey,
       paymentIntentClientSecret: paymentIntent,
+      returnURL: 'illevels://home',
       // Set `allowsDelayedPaymentMethods` to true if your business can handle payment
       //methods that complete payment after a delay, like SEPA Debit and Sofort.
       allowsDelayedPaymentMethods: true,
@@ -257,7 +262,10 @@ const Checkout = () => {
       //Alert.alert('Success', 'Your order is confirmed!');
       // run cloud function to add order
       const addOrderFunction = functions().httpsCallable('addOrder')
-      await addOrderFunction({email: currentUser.email, cost: cartAmount, cart: cartItems, address: address, postcode: postCode, deliveryTime: deliveryTime, deliveryDate: deliveryDate.toLocaleDateString() })
+      await addOrderFunction({email: currentUser.email, cost: cartAmount, cart: cartItems,
+         address: address, postcode: postCode, deliveryTime: deliveryTime,
+         firstname: dbUser.firstname, mobile: dbUser.mobile,
+         deliveryDate: deliveryDate.toLocaleDateString() })
       .then((res)=> {
         console.log(res)
         setLoading(false)
@@ -422,13 +430,13 @@ const Checkout = () => {
      <Text
       style={{textAlign:  'center', marginTop: 20, fontSize: 20}}
       >
-       Service charge : £{cartAmount > 30 ? 0 : 4 }
+       Service charge : £{cartAmount >= 30 ? parseFloat(0).toFixed(2) : parseFloat(2.50).toFixed(2) }
      </Text>
 
      <Text
       style={{textAlign:  'center', marginTop: 20, fontSize: 20, fontWeight: 'bold', color: 'green'}}
       >
-       Total charge : £{cartAmount < 30 ? cartAmount+4 : cartAmount }
+       Total charge : £{cartAmount < 30 ? cartAmount+2.5 : cartAmount }
      </Text>
 
       <TouchableNativeFeedback

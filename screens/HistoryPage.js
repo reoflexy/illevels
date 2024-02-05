@@ -1,6 +1,6 @@
 import React, { Component, useEffect, useContext, useState } from 'react';
 import { View, Text, StyleSheet,ScrollView, Image } from 'react-native';
-import { Button } from 'react-native-paper';
+import { Button,ActivityIndicator } from 'react-native-paper';
 import CatItem from './components/CatItem';
 import PopularItem from './components/PopularItem';
 import NewestItem from './components/NewestItem';
@@ -22,7 +22,8 @@ export default function HistoryPage({navigation}){
   useEffect(() => {
     setLoading(true)
   
-    const loadNew = firestore().collection("orders")
+    //const loadNew = 
+    firestore().collection("orders")
      .where("email","==",currentUser.email)
      .orderBy("added","desc")
      //.orderBy('name','desc')
@@ -40,25 +41,28 @@ export default function HistoryPage({navigation}){
   
      
      setOrderData(ordersArray)
-     console.log(ordersArray)
+     //console.log(ordersArray)
      setLoading(false);
      
      })
      .catch((error) => {
-       console.log(error)
+      return Toast.show("Failed to fetch orders");
      })
    
    
    
-   return () => {
-   loadNew();
-   };
+  //  return () => {
+  //  loadNew();
+  //  };
    },[])
  
     return (
     
       
       <ScrollView>
+        {loading == true  &&  <View >
+       <ActivityIndicator size={42} />
+      </View>}
 
         {orderData.map((item, index) => {
           return(

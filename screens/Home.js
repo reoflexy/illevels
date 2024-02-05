@@ -30,7 +30,8 @@ export default function Home({navigation}){
  useEffect(() => {
   setLoading(true)
 
-  const loadNew = firestore().collection("menu")
+  //const loadNew =
+   firestore().collection("menu")
    //.where("email","==",currentUser.email)
    .orderBy("added","desc")
    //.orderBy('name','desc')
@@ -59,10 +60,10 @@ export default function Home({navigation}){
 
    //sort menu to get popular items array
    var newItems = [];
-   for (var i = 0; i < 5; i++) {
+   for (var i = 0; i < 10; i++) {
     var idx = Math.floor(Math.random() * menuArray.length);
     newItems.push(menuArray[idx]);
-    //menuArray.splice(idx, 1);
+    menuArray.splice(idx, 1);
   }
    
   
@@ -72,14 +73,14 @@ export default function Home({navigation}){
    
    })
    .catch((error) => {
-     console.log(error)
+    return Toast.show("Error fetching data");
    })
  
  
  
- return () => {
- loadNew();
- };
+//  return () => {
+//  loadNew();
+//  };
  },[])
  
     return (
@@ -142,7 +143,7 @@ export default function Home({navigation}){
               <Text style={styles.newHeader}>Newest Items</Text>
             </View>
           <View>
-          {newestData.slice(0, 5).map((item,index) => (
+          {newestData.slice(0, 10).map((item,index) => (
     
           <NewestItem navigation={navigation} key={index} item={item}  />
            ))}

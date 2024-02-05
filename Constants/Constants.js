@@ -2,7 +2,7 @@ import {v4 as uuid} from 'uuid';
 import {Image} from 'react-native';
 
 // const iconColor = 'rgb(7,24,16)';
-const APP_NAME = 'ILLevels';
+const APP_NAME = 'I-Levels';
 
 const categories = [
   {id: 1, name:'Menu',icon: 'food',link: 'Menu'},
@@ -16,14 +16,14 @@ const categoriesAdmin = [
   {id: 2, name:'Add Item',icon: 'plus',link: 'AddMenu'},
   {id: 3, name:'Orders',icon: 'history',link: 'AdminOrdersPage'},
   // {id: 4, name:'Profiles',icon: 'account',link: 'Profiles'},
-  {id: 5, name:'Contact',icon: 'information-outline',link: 'Contact'},
+  {id: 4, name:'Statistics',icon: 'information-outline',link: 'AdminStats'},
 
 ]
 const contactData =[
-  {id: 1, txt:'Instagram',icon: 'instagram',link: 'https://instagram.com/illevels'},
-  {id: 2, txt:'FaceBook',icon: 'facebook',link: 'https://facebook.com/illevels'},
+  {id: 1, txt:'Instagram',icon: 'instagram',link: 'https://instagram.com/ilevels'},
+  {id: 2, txt:'FaceBook',icon: 'facebook',link: 'https://facebook.com/ilevels'},
   {id: 3, txt:'Mobile',icon: 'phone',link: '+44099999999'},
-  {id: 4, txt:'Email',icon: 'email',link: 'illevels@gmail.com'},
+  {id: 4, txt:'Email',icon: 'email',link: 'sales@ilevelsinstant.com'},
 ]
 
 export {

@@ -1,5 +1,5 @@
 {
-  "name": "illevels",
+  "name": "i-levels",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -23,6 +23,7 @@
     "dotenv": "^16.4.1",
     "react": "18.2.0",
     "react-native": "0.73.1",
+    "react-native-config": "^1.5.1",
     "react-native-date-picker": "^4.3.5",
     "react-native-document-picker": "^9.1.0",
     "react-native-dropdown-select-list": "^2.0.5",

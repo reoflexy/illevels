@@ -41,7 +41,7 @@ export const AuthProvider = ({children}) => {
                  // doc.data() is never undefined for query doc snapshots
                 // console.log(doc.id, " => ", doc.data());
                  setDbUser(doc.data())
-                 console.log(doc.data())
+                 //console.log(doc.data())
                  setCurrentUser(user)
                  setLoggedIn(true)
                  setLoading(false)
@@ -58,7 +58,7 @@ export const AuthProvider = ({children}) => {
            
     
           }).catch((err) => {
-            console.log(err)
+            //console.log(err)
             setLoading(false)
           })
          
@@ -68,7 +68,7 @@ export const AuthProvider = ({children}) => {
        
         
          AsyncStorage.setItem('user_email', user.email)
-         console.log(user.email)
+         //console.log(user.email)
 
               // ...
       }

@@ -10,7 +10,7 @@
 const {onRequest} = require("firebase-functions/v2/https");
 const logger = require("firebase-functions/logger");
 const {onCall} = require("firebase-functions/v2/https");
-const stripe = require('stripe')('sk_test_26PHem9AhJZvU623DfE1x4sd');
+const stripe = require('stripe')('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');
 
 const {initializeApp} = require("firebase-admin/app");
 const {getFirestore} = require("firebase-admin/firestore");
@@ -29,8 +29,6 @@ initializeApp();
 exports.stripeIntent= onRequest(async(request, response) => {
     //logger.info("Hello logs!", {structuredData: true});
      let amount = request.body.data.amount
-     let cart = request.body.data.cart
-     let email = request.body.data.email
 
     //console.log(request.body.data.email)
     //console.log(amount)
@@ -43,7 +41,7 @@ exports.stripeIntent= onRequest(async(request, response) => {
     {apiVersion: '2023-10-16'}
   );
   const paymentIntent = await stripe.paymentIntents.create({
-    amount: amount < 3000 ? amount+400: amount,
+    amount: amount < 3000 ? amount+250: amount,
     currency: 'gbp',
     customer: customer.id,
     // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
@@ -58,17 +56,15 @@ exports.stripeIntent= onRequest(async(request, response) => {
         paymentIntent: paymentIntent.client_secret,
         ephemeralKey: ephemeralKey.secret,
         customer: customer.id,
-        publishableKey: 'pk_test_qblFNYngBkEdjEZ16jxxoWSM',
+        publishableKey: 'pk_live_51OcnpqAsm3BGODEDlrrATfxXvKn9svvarqoRniXatzuoJFQ4APgTnj9Nn78dMjTR7Z6kb9jANpgdHfq3G1tkAMde00aL54lpob',
         amount: amount,
-        email: email,
-        cart: cart
         }
       });
   });
 
 exports.addOrder = onRequest(async(request, response) => {
   //   logger.info("Hello logs!", {structuredData: true});
-  let {email,cost, cart, address, postcode, deliveryTime, deliveryDate} = request.body.data
+  let {email,cost, cart, address, postcode, deliveryTime, deliveryDate, firstname, mobile} = request.body.data
   let orderId = "#"+Math.floor(Math.random() * (9999999-111111) +111111)
 
   var transporter = nodemailer.createTransport({
@@ -76,8 +72,8 @@ exports.addOrder = onRequest(async(request, response) => {
     port: 465,
     secure: true,
     auth: {
-        user: 'richmondeyesan04@gmail.com',
-        pass: 'izyxkkyfnadqlvhn'
+        user: 'Sales@ilevelsinstant.com',
+        pass: 'Norwich123@'
     }
 });
 
@@ -108,12 +104,33 @@ const mailOptions2 = {
     cost: cost < 30 ? cost+4 : cost,
     email: email,
     items: cart,
+    firstname: firstname,
+    mobile: mobile,
     address: address,
     postcode: postcode,
     deliveryTime: deliveryTime,
     deliveryDate: deliveryDate,
     status: 'in progress'
     
+    })
+
+     cart.map(async(item,index) => {
+      await getFirestore().collection("menu")
+      .where("itemId","==",item.itemId)
+      .get()
+      .then((querySnapshot)=> {
+
+        querySnapshot.forEach((doc) => {
+           getFirestore()
+          .collection("menu")
+          .doc(item.itemId)
+          .update({
+           stock: doc.data().stock-item.count,
+          })
+         })
+        
+      })
+
     })
 
     //send email to customer 

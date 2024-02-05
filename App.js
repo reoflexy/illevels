@@ -5,7 +5,7 @@
  * @format
  */
 
-import React,{useEffect, useContext} from 'react';
+import React,{useEffect, useContext, useCallback} from 'react';
 import SplashScreen from 'react-native-splash-screen'
 import {
   SafeAreaView,
@@ -36,7 +36,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { AppRegistry } from 'react-native';
 import { name as appName } from './app.json';
 
-import { PaperProvider } from 'react-native-paper';
+import { PaperProvider,DefaultTheme } from 'react-native-paper';
 import { initStripe } from '@stripe/stripe-react-native';
 
 import Home from './screens/Home';
@@ -52,7 +52,13 @@ import Checkout from './screens/Checkout';
 import AddMenu from './screens/AddMenu';
 import AdminMenuPage from './screens/AdminMenuPage';
 import AdminOrdersPage from './screens/AdminOrdersPage';
+import AdminStats from './screens/AdminStats';
+import OrderDetails from './screens/OrderDetails';
 //import {PUBLISHABLE_KEY} from '@env'
+import { Linking } from 'react-native';
+import { useStripe } from '@stripe/stripe-react-native';
+import Config from 'react-native-config';
+import { theme } from './Constants';
 
 const Stack = createNativeStackNavigator();
 
@@ -101,22 +107,64 @@ const Stack = createNativeStackNavigator();
 function App(){
   const isDarkMode = useColorScheme() === 'dark';
   const {loggedIn,currentUser} = useContext(AuthContext);
+  const { handleURLCallback } = useStripe();
+
+  const theme = {
+    ...DefaultTheme,
+    dark: false,
+    roundness: 2,
+    colors: {
+      ...DefaultTheme.colors,
+      // primary: '#3498db',
+      // accent: '#f1c40f',
+    },
+  };
+
+  const handleDeepLink = useCallback(
+    async (url) => {
+      if (url) {
+        const stripeHandled = await handleURLCallback(url);
+        if (stripeHandled) {
+          // This was a Stripe URL - you can return or add extra handling here as you see fit
+        } else {
+          // This was NOT a Stripe URL – handle as you normally would
+        }
+      }
+    },
+    [handleURLCallback]
+  );
+
+  useEffect(() => {
+    const getUrlAsync = async () => {
+      const initialUrl = await Linking.getInitialURL();
+      handleDeepLink(initialUrl);
+    };
+
+    getUrlAsync();
+
+    const deepLinkListener = Linking.addEventListener(
+      'url',
+      (event) => {
+        handleDeepLink(event.url);
+      }
+    );
+
+    return () => deepLinkListener.remove();
+  }, [handleDeepLink]);
 
 
   useEffect(() => {
     SplashScreen.hide();
   
     initStripe({
-      publishableKey: "pk_test_qblFNYngBkEdjEZ16jxxoWSM",
-      //publishableKey: PUBLISHABLE_KEY,
+      publishableKey: "pk_live_51OcnpqAsm3BGODEDlrrATfxXvKn9svvarqoRniXatzuoJFQ4APgTnj9Nn78dMjTR7Z6kb9jANpgdHfq3G1tkAMde00aL54lpob",
+      //publishableKey: Config.PUBLISHABLE_KEY.toString(),
       // merchantIdentifier: 'merchant.identifier',
-      // urlScheme: "your-url-scheme",
+       urlScheme: "illevels",
     });
   },[])
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+ 
 
   return (
    <NavigationContainer>
@@ -153,6 +201,16 @@ function App(){
           name="AdminOrdersPage"
           component={AdminOrdersPage}
           options={{title: 'AdminOrdersPage'}}
+        /> 
+        <Stack.Screen
+          name="OrderDetails"
+          component={OrderDetails}
+          options={{title: 'OrderDetails'}}
+        /> 
+         <Stack.Screen
+          name="AdminStats"
+          component={AdminStats}
+          options={{title: 'AdminStats'}}
         /> 
         <Stack.Screen
           name="Menu"
@@ -218,7 +276,7 @@ const Jsx = () =>(
  
   <AuthProvider>
     
-   <PaperProvider>
+   <PaperProvider theme={theme}>
 
   
    <App />

@@ -20,45 +20,6 @@ export default function CartPage({navigation}){
   const {dbUser,currentUser} = useContext(AuthContext)
   const [loading, setLoading] = useState(false)
 
-  //const fetchPaymentSheetParams = 
-
-
-
-  
-  
-
-  //console.log(cartItems)
-
-  //et orderId = "#"+Math.floor(Math.random() * (9999999-111111) +111111)
-
-  //save order function
-  // const saveOrder = () => {
-  //   firestore()
-  //   .collection("orders")
-  //   .doc(orderId)
-  //   .set({
-  //    id: orderId,
-  //   //id: uuidv4(),
-  //   added: new Date(),
-  //   cost: cartItems.reduce(
-	// 		(amount, cartItem) => parseInt(cartItem.price*cartItem.count, 10) + amount,
-	// 		0
-	// 	  ),
-  //   email: currentUser.email,
-  //   items: cartItems,
-  //   status: 'in progress'
-    
-
-    
-  //   })
-  //   .then(() => {
-  //     console.log('saved order')
-  //   })
-  //   .catch((err) => {
-      
-  //     return console.log(err,"error saving order")
-  //   })
-  // }
  
     return (
     
@@ -85,7 +46,7 @@ export default function CartPage({navigation}){
   parseFloat(cartItems.reduce(
     (amount, cartItem) => parseFloat(cartItem.price*cartItem.count, 10) + amount,
     0
-    ).toFixed(2) )}
+    ).toFixed(2) ) }
      </Text>
 </View>)
 : 
@@ -95,9 +56,26 @@ export default function CartPage({navigation}){
 </View>)
 }
 
+{parseFloat(cartItems.reduce(
+    (amount, cartItem) => parseFloat(cartItem.price*cartItem.count, 10) + amount,
+    0
+    ).toFixed(2) ) < 10 ? 
+    <Text style={{fontSize: 14, textAlign: 'center', color: 'red'}}>Minimum checkout amount is £10!</Text>
+    :
+     ""
+}
+
 {cartItems.length >= 1 && <View style={{flexDirection: 'row', justifyContent: "center", padding: 10, marginTop: 10}}>
+
+
+
+
   <Button mode="contained" 
   style={{width: '80%'}}
+  disabled={parseFloat(cartItems.reduce(
+    (amount, cartItem) => parseFloat(cartItem.price*cartItem.count, 10) + amount,
+    0
+    ).toFixed(2) ) < 10 ? true : false}
   // onPress={() => openPaymentSheet()}
   onPress={() => navigation.navigate('Checkout')}
   >Next</Button>

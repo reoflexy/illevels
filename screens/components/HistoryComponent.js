@@ -24,14 +24,14 @@ export default function HistoryComponent({navigation,order}){
       <View style={styles.popStyle} >
 
             
-<Card  style={{margin: 5}}>
+<Card  style={{margin: 5}} onPress={()=>navigation.navigate('OrderDetails',{order: order})}>
     <Card.Content style={styles.cardStyle}>
         <View style={{flex: 0.4}}>
         <Image
         style={{width: 100, height: 100, borderRadius: 5}}
         source={{
-          uri: 'https://picsum.photos/540',
-          //uri: order[0].photo,
+          //uri: 'https://picsum.photos/540',
+          uri: order.items[0].photo,
         }}
       />
         </View>
@@ -45,9 +45,13 @@ export default function HistoryComponent({navigation,order}){
       <View style={{flex:1,flexDirection: 'row', alignItems: 'center'}}>
      
       
-      <Text style={{margin: 3, color: 'green', fontWeight: 'bold'}} variant="bodyMedium">{order.status} </Text>
+     {order.status == "in progress" ? 
+     <Text style={{margin: 3, color: 'green', fontWeight: 'bold'}} variant="bodyMedium">{order.status} </Text> 
+     :
+     <Text style={{margin: 3, fontWeight: 'bold'}} variant="bodyMedium">{order.status} </Text> 
+    }
 
-   {order.status == "in progress" ?   <Button
+   {/* {order.status == "in progress" ?   <Button
       style={{marginLeft: 8}}
     icon="cancel"
     iconColor='red'
@@ -55,7 +59,7 @@ export default function HistoryComponent({navigation,order}){
     mode='outlined'
     textColor='red'
     onPress={() => deleteOrder(order)}
-  >Cancel</Button> : ''}
+  >Cancel</Button> : ''} */}
 
   
  
