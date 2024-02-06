@@ -10,7 +10,9 @@
 const {onRequest} = require("firebase-functions/v2/https");
 const logger = require("firebase-functions/logger");
 const {onCall} = require("firebase-functions/v2/https");
-const stripe = require('stripe')('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');
+// const sKey  = firebase.config().config.skey
+// const pKey  = firebase.config().config.pkey
+const stripe = require('stripe')(process.env.SKEY);
 
 const {initializeApp} = require("firebase-admin/app");
 const {getFirestore} = require("firebase-admin/firestore");
@@ -56,7 +58,7 @@ exports.stripeIntent= onRequest(async(request, response) => {
         paymentIntent: paymentIntent.client_secret,
         ephemeralKey: ephemeralKey.secret,
         customer: customer.id,
-        publishableKey: 'pk_live_51OcnpqAsm3BGODEDlrrATfxXvKn9svvarqoRniXatzuoJFQ4APgTnj9Nn78dMjTR7Z6kb9jANpgdHfq3G1tkAMde00aL54lpob',
+        publishableKey:  process.env.PKEY,
         amount: amount,
         }
       });
